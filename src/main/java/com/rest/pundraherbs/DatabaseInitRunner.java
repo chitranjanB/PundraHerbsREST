@@ -11,6 +11,10 @@ import com.rest.pundraherbs.model.Product;
 import com.rest.pundraherbs.model.Review;
 import com.rest.pundraherbs.repository.ProductRepository;
 
+/**
+ * This class runs before the application starts and initializes the Database with defined rows
+ *
+ */
 @Component
 public class DatabaseInitRunner implements CommandLineRunner {
 

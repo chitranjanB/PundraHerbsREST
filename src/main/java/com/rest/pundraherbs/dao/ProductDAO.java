@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rest.pundraherbs.model.Product;
+import com.rest.pundraherbs.model.ProductType;
 import com.rest.pundraherbs.model.Review;
 import com.rest.pundraherbs.repository.ProductRepository;
 
@@ -18,6 +19,11 @@ public class ProductDAO implements IProductDAO {
 	@Override
 	public List<Product> getAllProducts() {
 		return productRepository.findAll();
+	}
+	
+	@Override
+	public List<Product> getProductByType(ProductType productType) {
+		return productRepository.findByProductType(productType);
 	}
 
 	@Override

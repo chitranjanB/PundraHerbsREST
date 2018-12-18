@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rest.pundraherbs.model.Product;
+import com.rest.pundraherbs.model.ProductType;
 import com.rest.pundraherbs.model.Review;
 import com.rest.pundraherbs.service.ProductService;
 
@@ -22,11 +24,19 @@ public class ProductsController {
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, params="!type")
 	public List<Product> getAllProducts() {
 		return productService.getAllProducts();
 	}
-	
+
+	@RequestMapping(method = RequestMethod.GET)
+	public List<Product> getProducts(@RequestParam(value = "type") ProductType productType) {
+		if (productType == null) {
+			return productService.getAllProducts();
+		}
+		return productService.getProductByType(productType);
+	}
+
 	@RequestMapping(value = "{productId}", method = RequestMethod.GET)
 	public Product getProduct(@PathVariable(value = "productId") Long productId) {
 		return productService.getProduct(productId);

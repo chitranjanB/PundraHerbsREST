@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.rest.pundraherbs.dao.IProductDAO;
 import com.rest.pundraherbs.model.Product;
+import com.rest.pundraherbs.model.ProductType;
 import com.rest.pundraherbs.model.Review;
 
 @Service
@@ -18,6 +19,11 @@ public class ProductService implements IProductService {
 	@Override
 	public List<Product> getAllProducts() {
 		return productDAO.getAllProducts();
+	}
+	
+	@Override
+	public List<Product> getProductByType(ProductType productType) {
+		return productDAO.getProductByType(productType);
 	}
 
 	@Override

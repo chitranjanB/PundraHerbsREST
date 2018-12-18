@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,6 +18,9 @@ public class Product {
 	@GeneratedValue
 	private Long productId;
 	private String productName;
+
+	@Enumerated(EnumType.STRING)
+	private ProductType productType;
 	private String productSummary;
 	private String productPrice;
 	private String productDiscount;
@@ -58,6 +63,14 @@ public class Product {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
 	}
 
 	public String getProductSummary() {

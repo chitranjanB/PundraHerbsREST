@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.rest.pundraherbs.model.Product;
+import com.rest.pundraherbs.model.ProductType;
 import com.rest.pundraherbs.model.Review;
 import com.rest.pundraherbs.repository.ProductRepository;
 
@@ -37,6 +38,7 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		p1.setPackings(new ArrayList<>(Arrays.asList("pac1", "pac2")));
 		p1.setIndications(new ArrayList<>(Arrays.asList("ind1", "ind2")));
 		p1.setReviewComments(new ArrayList<>(Arrays.asList(r11, r12)));
+		p1.setProductType(ProductType.HUMAN);
 
 		Product p2 = new Product();
 		p2.setProductName("Lady Fit");
@@ -50,6 +52,7 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		r22.setReviewComment("review2");
 		r22.setReviewComment("review21");
 		p2.setReviewComments(new ArrayList<>(Arrays.asList(r21, r22)));
+		p2.setProductType(ProductType.HUMAN);
 
 		Product p3 = new Product();
 		p3.setProductName("Burn oil");
@@ -62,7 +65,8 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		Review r32 = new Review();
 		r32.setReviewComment("review2");
 		r32.setReviewComment("review21");
-		p2.setReviewComments(new ArrayList<>(Arrays.asList(r31, r32)));
+		p3.setReviewComments(new ArrayList<>(Arrays.asList(r31, r32)));
+		p3.setProductType(ProductType.HUMAN);
 
 		repository.save(p1);
 		repository.save(p2);

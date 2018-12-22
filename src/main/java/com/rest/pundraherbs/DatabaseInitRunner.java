@@ -7,20 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.rest.pundraherbs.model.Order;
 import com.rest.pundraherbs.model.Product;
 import com.rest.pundraherbs.model.ProductType;
 import com.rest.pundraherbs.model.Review;
+import com.rest.pundraherbs.repository.OrderRepository;
 import com.rest.pundraherbs.repository.ProductRepository;
 
 /**
- * This class runs before the application starts and initializes the Database with defined rows
+ * This class runs before the application starts and initializes the Database
+ * with defined rows
  *
  */
 @Component
 public class DatabaseInitRunner implements CommandLineRunner {
 
 	@Autowired
-	ProductRepository repository;
+	ProductRepository productRepository;
+
+	@Autowired
+	OrderRepository orderRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -68,9 +74,12 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		p3.setReviewComments(new ArrayList<>(Arrays.asList(r31, r32)));
 		p3.setProductType(ProductType.HUMAN);
 
-		repository.save(p1);
-		repository.save(p2);
-		repository.save(p3);
+		productRepository.save(p1);
+		productRepository.save(p2);
+		productRepository.save(p3);
+
+		Order order1 = new Order();
+		orderRepository.save(order1);
 
 	}
 }

@@ -26,6 +26,7 @@ public class Product {
 	private String productDiscount;
 	private String productImg;
 	private int unitInStock;
+	private Double price;
 
 	@ElementCollection
 	private List<String> ingredients;
@@ -111,6 +112,14 @@ public class Product {
 
 	public void setUnitInStock(int unitInStock) {
 		this.unitInStock = unitInStock;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public List<String> getIngredients() {

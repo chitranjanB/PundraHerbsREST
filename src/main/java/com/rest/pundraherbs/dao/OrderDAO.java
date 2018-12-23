@@ -19,4 +19,11 @@ public class OrderDAO implements IOrderDAO {
 		return orderRepository.findAll();
 	}
 
+	@Override
+	public Order createOrder(Order order) {
+		orderRepository.save(order);
+		System.out.println("chit method unimplemented");
+		return order;
+	}
+
 }

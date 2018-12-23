@@ -45,7 +45,7 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		p1.setIndications(new ArrayList<>(Arrays.asList("ind1", "ind2")));
 		p1.setReviewComments(new ArrayList<>(Arrays.asList(r11, r12)));
 		p1.setProductType(ProductType.HUMAN);
-
+		p1.setProductPrice(new Double("100"));
 		Product p2 = new Product();
 		p2.setProductName("Lady Fit");
 		p2.setProductSummary("Women reproductive health");
@@ -78,8 +78,10 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		productRepository.save(p2);
 		productRepository.save(p3);
 
-		Order order1 = new Order();
-		orderRepository.save(order1);
+		// just for testing
+		/*
+		 * Order order1 = new Order(); orderRepository.save(order1);
+		 */
 
 	}
 }

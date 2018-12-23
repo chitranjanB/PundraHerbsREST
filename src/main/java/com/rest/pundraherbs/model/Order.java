@@ -39,6 +39,7 @@ public class Order {
 		double sum = 0D;
 		List<OrderProduct> orderProducts = getOrderProducts();
 		for (OrderProduct op : orderProducts) {
+			System.out.println("chit "+op);
 			sum += op.getTotalPrice();
 		}
 		return sum;

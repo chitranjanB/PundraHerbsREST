@@ -22,11 +22,10 @@ public class Product {
 	@Enumerated(EnumType.STRING)
 	private ProductType productType;
 	private String productSummary;
-	private String productPrice;
+	private Double productPrice;
 	private String productDiscount;
 	private String productImg;
 	private int unitInStock;
-	private Double price;
 
 	@ElementCollection
 	private List<String> ingredients;
@@ -82,11 +81,11 @@ public class Product {
 		this.productSummary = productSummary;
 	}
 
-	public String getProductPrice() {
+	public Double getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(String productPrice) {
+	public void setProductPrice(Double productPrice) {
 		this.productPrice = productPrice;
 	}
 
@@ -112,14 +111,6 @@ public class Product {
 
 	public void setUnitInStock(int unitInStock) {
 		this.unitInStock = unitInStock;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
 	}
 
 	public List<String> getIngredients() {

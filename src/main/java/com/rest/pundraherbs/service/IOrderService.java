@@ -6,6 +6,7 @@ import com.rest.pundraherbs.model.Order;
 
 public interface IOrderService {
 	public List<Order> getAllOrders();
-	public List<Order> createOrder();
+
+	public Order createOrder(Order order);
 
 }

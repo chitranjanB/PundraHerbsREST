@@ -34,7 +34,7 @@ public class OrderProduct {
 
 	@Transient
 	public Double getTotalPrice() {
-		return getProduct().getPrice() * getQuantity();
+		return getProduct().getProductPrice() * getQuantity();
 	}
 
 	public OrderProductPK getPk() {

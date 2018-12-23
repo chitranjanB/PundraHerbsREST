@@ -18,9 +18,8 @@ public class OrderService implements IOrderService {
 		return orderDAO.getAllOrders();
 	}
 
-	public List<Order> createOrder() {
-		System.out.println("create order service");
-		return null;
+	public Order createOrder(Order order) {
+		return orderDAO.createOrder(order);
 	}
 
 }

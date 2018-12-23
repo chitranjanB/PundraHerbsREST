@@ -24,4 +24,9 @@ public class OrderDAO implements IOrderDAO {
 		return orderRepository.save(order);
 	}
 
+	@Override
+	public Order getOrder(Long orderId) {
+		return orderRepository.getOne(orderId);
+	}
+
 }

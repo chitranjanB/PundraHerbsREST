@@ -9,4 +9,6 @@ public interface IOrderDAO {
 
 	public Order createOrder(Order order);
 
+	public Order getOrder(Long orderId);
+
 }

@@ -10,4 +10,6 @@ public interface IOrderService {
 
 	public OrderInfo createOrder(CartInfo cartInfo);
 
+	public OrderInfo getOrder(Long orderId);
+
 }

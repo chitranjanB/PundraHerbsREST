@@ -48,6 +48,9 @@ public class OrderService implements IOrderService {
 				details.add(orderDetailsInfo);
 			}
 			orderInfo.setDetails(details);
+			orderInfo.setOrderId(order.getId());
+			orderInfo.setOrderStatus(order.getStatus());
+
 			listOfOrders.add(orderInfo);
 		}
 		return listOfOrders;
@@ -89,7 +92,34 @@ public class OrderService implements IOrderService {
 		}
 
 		orderInfo.setDetails(details);
+		orderInfo.setOrderId(order.getId());
+		orderInfo.setOrderStatus(order.getStatus());
 		return orderInfo;
+	}
+
+	@Override
+	public OrderInfo getOrder(Long orderId) {
+		Order order = orderDAO.getOrder(orderId);
+
+		OrderInfo orderInfo = new OrderInfo();
+		List<OrderDetailsInfo> details = new ArrayList<>();
+
+		for (OrderProduct orderProduct : order.getOrderProducts()) {
+			OrderDetailsInfo orderDetailsInfo = new OrderDetailsInfo();
+			ProductInfo productInfo = new ProductInfo();
+			productInfo.setProductId(orderProduct.getProduct().getProductId());
+			orderDetailsInfo.setProduct(productInfo);
+			orderDetailsInfo.setQuantity(orderProduct.getQuantity());
+
+			details.add(orderDetailsInfo);
+		}
+
+		orderInfo.setDetails(details);
+		orderInfo.setOrderId(order.getId());
+		orderInfo.setOrderStatus(order.getStatus());
+
+		return orderInfo;
+
 	}
 
 }

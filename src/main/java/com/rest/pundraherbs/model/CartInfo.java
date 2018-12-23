@@ -5,7 +5,10 @@ import java.util.List;
 /**
  * This is sent as a request body, to place an order
  * REST as of now does not support get CART operation.
- * Cart is removed once the user logsout
+ * Cart is removed once the user logouts
+ * 
+ * This will be used in spring mvc to add/modify/remove products. It will not be stored in db
+ * it will be in model and stored in session.
  */
 public class CartInfo {
 

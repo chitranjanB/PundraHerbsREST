@@ -3,7 +3,7 @@ package com.rest.pundraherbs;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.rest.pundraherbs.model.ProductType;
+import com.rest.pundraherbs.entity.ProductType;
 
 @Component
 public class ProductTypeEnumConverter implements Converter<String, ProductType> {

@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.rest.pundraherbs.model.Order;
-import com.rest.pundraherbs.model.Product;
-import com.rest.pundraherbs.model.ProductType;
-import com.rest.pundraherbs.model.Review;
+import com.rest.pundraherbs.entity.Product;
+import com.rest.pundraherbs.entity.ProductType;
+import com.rest.pundraherbs.entity.Review;
 import com.rest.pundraherbs.repository.OrderRepository;
 import com.rest.pundraherbs.repository.ProductRepository;
 
@@ -77,11 +76,6 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		productRepository.save(p1);
 		productRepository.save(p2);
 		productRepository.save(p3);
-
-		// just for testing
-		/*
-		 * Order order1 = new Order(); orderRepository.save(order1);
-		 */
 
 	}
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rest.pundraherbs.dao.IOrderProductDAO;
-import com.rest.pundraherbs.model.OrderProduct;
+import com.rest.pundraherbs.entity.OrderProduct;
 
 @Service
 public class OrderProductService implements IOrderProductService {

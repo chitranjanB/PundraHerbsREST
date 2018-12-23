@@ -2,11 +2,12 @@ package com.rest.pundraherbs.service;
 
 import java.util.List;
 
-import com.rest.pundraherbs.model.Order;
+import com.rest.pundraherbs.model.CartInfo;
+import com.rest.pundraherbs.model.OrderInfo;
 
 public interface IOrderService {
-	public List<Order> getAllOrders();
+	public List<OrderInfo> getAllOrders();
 
-	public Order createOrder(Order order);
+	public OrderInfo createOrder(CartInfo cartInfo);
 
 }

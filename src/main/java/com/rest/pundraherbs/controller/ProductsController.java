@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rest.pundraherbs.model.Product;
-import com.rest.pundraherbs.model.ProductType;
-import com.rest.pundraherbs.model.Review;
+import com.rest.pundraherbs.entity.Product;
+import com.rest.pundraherbs.entity.ProductType;
+import com.rest.pundraherbs.entity.Review;
 import com.rest.pundraherbs.service.ProductService;
 
 @RestController

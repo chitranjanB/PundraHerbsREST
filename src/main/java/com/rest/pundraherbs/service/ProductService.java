@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rest.pundraherbs.dao.IProductDAO;
-import com.rest.pundraherbs.model.Product;
-import com.rest.pundraherbs.model.ProductType;
-import com.rest.pundraherbs.model.Review;
+import com.rest.pundraherbs.entity.Product;
+import com.rest.pundraherbs.entity.ProductType;
+import com.rest.pundraherbs.entity.Review;
 
 @Service
 public class ProductService implements IProductService {
@@ -20,7 +20,7 @@ public class ProductService implements IProductService {
 	public List<Product> getAllProducts() {
 		return productDAO.getAllProducts();
 	}
-	
+
 	@Override
 	public List<Product> getProductByType(ProductType productType) {
 		return productDAO.getProductByType(productType);

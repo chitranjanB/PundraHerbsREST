@@ -3,7 +3,7 @@ package com.rest.pundraherbs.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.rest.pundraherbs.model.OrderProduct;
+import com.rest.pundraherbs.entity.OrderProduct;
 import com.rest.pundraherbs.repository.OrderProductRepository;
 
 @Repository

@@ -1,6 +1,6 @@
 package com.rest.pundraherbs.dao;
 
-import com.rest.pundraherbs.model.OrderProduct;
+import com.rest.pundraherbs.entity.OrderProduct;
 
 public interface IOrderProductDAO {
 

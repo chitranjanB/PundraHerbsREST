@@ -2,9 +2,9 @@ package com.rest.pundraherbs.dao;
 
 import java.util.List;
 
-import com.rest.pundraherbs.model.Product;
-import com.rest.pundraherbs.model.ProductType;
-import com.rest.pundraherbs.model.Review;
+import com.rest.pundraherbs.entity.Product;
+import com.rest.pundraherbs.entity.ProductType;
+import com.rest.pundraherbs.entity.Review;
 
 
 public interface IProductDAO {

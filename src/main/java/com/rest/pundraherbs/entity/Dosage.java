@@ -1,4 +1,4 @@
-package com.rest.pundraherbs.model;
+package com.rest.pundraherbs.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

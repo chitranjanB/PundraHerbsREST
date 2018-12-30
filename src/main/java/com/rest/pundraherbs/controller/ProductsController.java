@@ -31,9 +31,6 @@ public class ProductsController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Product> getProducts(@RequestParam(value = "type") ProductType productType) {
-		if (productType == null) {
-			return productService.getAllProducts();
-		}
 		return productService.getProductByType(productType);
 	}
 

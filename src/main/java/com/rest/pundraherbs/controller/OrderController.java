@@ -43,7 +43,6 @@ public class OrderController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", uri);
 
-		return new ResponseEntity<OrderInfo>(orderInfo, HttpStatus.CREATED);
+		return new ResponseEntity<OrderInfo>(orderInfo, headers, HttpStatus.CREATED);
 	}
-
 }

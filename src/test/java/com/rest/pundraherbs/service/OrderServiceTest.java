@@ -1,11 +1,9 @@
 package com.rest.pundraherbs.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,14 +18,12 @@ import org.mockito.MockitoAnnotations;
 import com.rest.pundraherbs.dao.OrderDAO;
 import com.rest.pundraherbs.entity.Order;
 import com.rest.pundraherbs.entity.OrderProduct;
-import com.rest.pundraherbs.entity.OrderProductPK;
 import com.rest.pundraherbs.entity.Product;
-import com.rest.pundraherbs.entity.ProductType;
-import com.rest.pundraherbs.entity.Review;
 import com.rest.pundraherbs.model.CartInfo;
 import com.rest.pundraherbs.model.CartLineInfo;
 import com.rest.pundraherbs.model.OrderInfo;
 import com.rest.pundraherbs.model.ProductInfo;
+import com.rest.pundraherbs.util.TestDataUtil;
 
 public class OrderServiceTest {
 
@@ -50,23 +46,8 @@ public class OrderServiceTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		order = initializeTestDataForOrder();
-		product = setUpProductData();
-	}
-
-	private Order initializeTestDataForOrder() {
-		Order order = new Order();
-		order.setDateCreated(LocalDate.now());
-		order.setId(101L);
-		order.setStatus("Completed");
-		OrderProduct orderProduct = new OrderProduct();
-		OrderProductPK pk = new OrderProductPK();
-		pk.setOrder(order);
-		pk.setProduct(setUpProductData());
-		orderProduct.setPk(pk);
-		orderProduct.setQuantity(1);
-		order.setOrderProducts(Arrays.asList(orderProduct));
-		return order;
+		order = TestDataUtil.setUpOrderData();
+		product = TestDataUtil.setUpProductData();
 	}
 
 	@Test
@@ -116,27 +97,6 @@ public class OrderServiceTest {
 		verify(orderDAO, times(1)).getOrder(Mockito.anyLong());
 
 		assertThat(orderInfo.getOrderId()).isEqualTo(order.getId());
-	}
-
-	private Product setUpProductData() {
-		Review r11 = new Review();
-		r11.setReviewComment("review1");
-		r11.setReviewComment("review11");
-		Review r12 = new Review();
-		r12.setReviewComment("review2");
-		r12.setReviewComment("review21");
-
-		Product p1 = new Product();
-		p1.setProductId(101L);
-		p1.setProductName("Liverin");
-		p1.setProductSummary("liver health");
-		p1.setIngredients(new ArrayList<>(Arrays.asList("ing1", "ing2")));
-		p1.setPackings(new ArrayList<>(Arrays.asList("pac1", "pac2")));
-		p1.setIndications(new ArrayList<>(Arrays.asList("ind1", "ind2")));
-		p1.setReviewComments(new ArrayList<>(Arrays.asList(r11, r12)));
-		p1.setProductType(ProductType.HUMAN);
-		p1.setProductPrice(new Double("100"));
-		return p1;
 	}
 
 }

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +18,7 @@ import com.rest.pundraherbs.dao.ProductDAO;
 import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
 import com.rest.pundraherbs.entity.Review;
+import com.rest.pundraherbs.util.TestDataUtil;
 
 public class ProductServiceTest {
 
@@ -33,7 +33,7 @@ public class ProductServiceTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		product = setUpProductData();
+		product = TestDataUtil.setUpProductData();
 	}
 
 	@Test
@@ -72,26 +72,6 @@ public class ProductServiceTest {
 
 		productService.reviewProduct(101L, new Review());
 		verify(productDAO, times(1)).reviewProduct(Mockito.anyLong(), Mockito.any(Review.class));
-	}
-
-	private Product setUpProductData() {
-		Review r11 = new Review();
-		r11.setReviewComment("review1");
-		r11.setReviewComment("review11");
-		Review r12 = new Review();
-		r12.setReviewComment("review2");
-		r12.setReviewComment("review21");
-
-		Product p1 = new Product();
-		p1.setProductName("Liverin");
-		p1.setProductSummary("liver health");
-		p1.setIngredients(new ArrayList<>(Arrays.asList("ing1", "ing2")));
-		p1.setPackings(new ArrayList<>(Arrays.asList("pac1", "pac2")));
-		p1.setIndications(new ArrayList<>(Arrays.asList("ind1", "ind2")));
-		p1.setReviewComments(new ArrayList<>(Arrays.asList(r11, r12)));
-		p1.setProductType(ProductType.HUMAN);
-		p1.setProductPrice(new Double("100"));
-		return p1;
 	}
 
 }

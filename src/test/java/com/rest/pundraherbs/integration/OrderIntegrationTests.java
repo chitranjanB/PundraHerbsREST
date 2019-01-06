@@ -32,7 +32,7 @@ public class OrderIntegrationTests {
 
 	HttpHeaders headers = new HttpHeaders();
 
-	/*@Test
+	@Test
 	public void givenTestRestTemplate_whenGetOrders_thenReturns_noOrders() throws Exception {
 
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
@@ -42,7 +42,7 @@ public class OrderIntegrationTests {
 
 		JSONAssert.assertEquals(expected, response.getBody(), false);
 	}
-*/
+
 	@Test
 	public void givenTestRestTemplate_whenCreateOrder_thenReturns_statusCreated() throws Exception {
 

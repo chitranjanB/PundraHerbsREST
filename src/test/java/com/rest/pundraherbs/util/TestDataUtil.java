@@ -10,11 +10,27 @@ import com.rest.pundraherbs.entity.OrderProductPK;
 import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
 import com.rest.pundraherbs.entity.Review;
+import com.rest.pundraherbs.model.CartInfo;
+import com.rest.pundraherbs.model.CartLineInfo;
 import com.rest.pundraherbs.model.OrderDetailsInfo;
 import com.rest.pundraherbs.model.OrderInfo;
 import com.rest.pundraherbs.model.ProductInfo;
 
 public class TestDataUtil {
+	
+	
+	public static CartInfo setUpCartInfoData() {
+		CartInfo cartInfo = new CartInfo();
+
+		CartLineInfo cartLineInfo = new CartLineInfo();
+		ProductInfo productInfo = new ProductInfo();
+		productInfo.setProductId(1L);
+		cartLineInfo.setProduct(productInfo);
+		cartLineInfo.setQuantity(1);
+		cartInfo.setDetails(new ArrayList<CartLineInfo>(Arrays.asList(cartLineInfo)));
+		
+		return cartInfo;
+	}
 	
 	public static Order setUpOrderData() {
 		Order order = new Order();
@@ -27,7 +43,7 @@ public class TestDataUtil {
 		pk.setProduct(TestDataUtil.setUpProductData());
 		orderProduct.setPk(pk);
 		orderProduct.setQuantity(1);
-		order.setOrderProducts(Arrays.asList(orderProduct));
+		order.setOrderProducts(new ArrayList<OrderProduct>(Arrays.asList(orderProduct)));
 		return order;
 	}
 
@@ -38,11 +54,11 @@ public class TestDataUtil {
 		OrderDetailsInfo details = new OrderDetailsInfo();
 		ProductInfo productInfo = new ProductInfo();
 
-		productInfo.setProductId(101L);
+		productInfo.setProductId(1L);
 		details.setProduct(productInfo);
 		details.setQuantity(1);
 
-		orderInfo.setDetails(Arrays.asList(details));
+		orderInfo.setDetails(new ArrayList<OrderDetailsInfo>(Arrays.asList(details)));
 		orderInfo.setOrderId(101L);
 		orderInfo.setOrderStatus("Completed");
 
@@ -58,6 +74,7 @@ public class TestDataUtil {
 		r12.setReviewComment("review21");
 
 		Product p1 = new Product();
+		//p1.setProductId(1L);
 		p1.setProductName("Liverin");
 		p1.setProductSummary("liver health");
 		p1.setIngredients(new ArrayList<>(Arrays.asList("ing1", "ing2")));

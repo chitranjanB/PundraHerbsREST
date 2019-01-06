@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ProductServiceTest {
 
 	@Test
 	public void testGetAllProducts() {
-		List<Product> list = Arrays.asList(product);
+		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
 		Mockito.when(productDAO.getAllProducts()).thenReturn(list);
 
 		List<Product> actual = productService.getAllProducts();
@@ -49,7 +50,7 @@ public class ProductServiceTest {
 
 	@Test
 	public void testGetProductByType() {
-		List<Product> list = Arrays.asList(product);
+		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
 		Mockito.when(productDAO.getProductByType(Mockito.any(ProductType.class))).thenReturn(list);
 
 		List<Product> actual = productService.getProductByType(ProductType.HUMAN);

@@ -3,6 +3,7 @@ package com.rest.pundraherbs.controller;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
 import com.rest.pundraherbs.entity.Review;
+import com.rest.pundraherbs.model.OrderInfo;
 import com.rest.pundraherbs.service.ProductService;
 import com.rest.pundraherbs.util.TestDataUtil;
 
@@ -41,7 +43,7 @@ public class ProductControllerTest {
 	@Test
 	public void testGetAllProducts() throws Exception {
 		Product product = TestDataUtil.setUpProductData();
-		List<Product> list = Arrays.asList(product);
+		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
 
 		Mockito.when(productService.getAllProducts()).thenReturn(list);
 
@@ -55,7 +57,7 @@ public class ProductControllerTest {
 	@Test
 	public void testGetProductsWhenProductTypeIsHuman() throws Exception {
 		Product product = TestDataUtil.setUpProductData();
-		List<Product> list = Arrays.asList(product);
+		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
 
 		Mockito.when(productService.getProductByType(Mockito.any(ProductType.class))).thenReturn(list);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products?type=HUMAN")
@@ -70,7 +72,7 @@ public class ProductControllerTest {
 	public void testGetProductsWhenProductTypeIsVet() throws Exception {
 		Product product = TestDataUtil.setUpProductData();
 		product.setProductType(ProductType.VET);
-		List<Product> list = Arrays.asList(product);
+		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
 
 		Mockito.when(productService.getProductByType(Mockito.any(ProductType.class))).thenReturn(list);
 

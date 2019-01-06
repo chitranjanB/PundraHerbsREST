@@ -61,7 +61,7 @@ public class OrderService implements IOrderService {
 		// processing the request to convert it to the entity format
 		List<CartLineInfo> listOfCartLineInfo = cart.getDetails();
 		Order order = new Order();
-		/*order = orderDAO.createOrder(order);*/
+		order = orderDAO.createOrder(order);
 
 		List<OrderProduct> orderProducts = new ArrayList<>();
 

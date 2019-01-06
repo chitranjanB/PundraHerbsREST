@@ -3,6 +3,7 @@ package com.rest.pundraherbs.controller;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,9 +24,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.rest.pundraherbs.model.CartInfo;
-import com.rest.pundraherbs.model.CartLineInfo;
 import com.rest.pundraherbs.model.OrderInfo;
-import com.rest.pundraherbs.model.ProductInfo;
 import com.rest.pundraherbs.service.OrderService;
 import com.rest.pundraherbs.util.TestDataUtil;
 
@@ -42,7 +41,7 @@ public class OrderControllerTest {
 	@Test
 	public void testGetAllOrders() throws Exception {
 		OrderInfo orderInfo = TestDataUtil.setUpOrderInfoData();
-		List<OrderInfo> list = Arrays.asList(orderInfo);
+		List<OrderInfo> list = new ArrayList<OrderInfo>(Arrays.asList(orderInfo));
 
 		Mockito.when(orderService.getAllOrders()).thenReturn(list);
 
@@ -50,7 +49,7 @@ public class OrderControllerTest {
 
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 
-		String expected = "[{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":101},\"quantity\":1}]}]";
+		String expected = "[{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1},\"quantity\":1}]}]";
 
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
 	}
@@ -66,21 +65,13 @@ public class OrderControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 
 		System.out.println("chit " + result.getResponse().getContentAsString());
-		String expected = "{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":101},\"quantity\":1}]}";
+		String expected = "{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1},\"quantity\":1}]}";
 
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
 	}
 
 	@Test
 	public void testCreateOrder() throws Exception {
-		CartInfo cartInfo = new CartInfo();
-
-		CartLineInfo cartLineInfo = new CartLineInfo();
-		ProductInfo productInfo = new ProductInfo();
-		productInfo.setProductId(101L);
-		cartLineInfo.setProduct(productInfo);
-		cartLineInfo.setQuantity(1);
-		cartInfo.setDetails(Arrays.asList(cartLineInfo));
 
 		Mockito.when(orderService.createOrder(Mockito.any(CartInfo.class)))
 				.thenReturn(TestDataUtil.setUpOrderInfoData());

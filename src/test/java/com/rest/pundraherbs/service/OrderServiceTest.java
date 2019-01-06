@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import com.rest.pundraherbs.dao.OrderDAO;
 import com.rest.pundraherbs.entity.Order;
 import com.rest.pundraherbs.entity.OrderProduct;
+import com.rest.pundraherbs.entity.OrderProductPK;
 import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.model.CartInfo;
 import com.rest.pundraherbs.model.CartLineInfo;
@@ -65,23 +66,25 @@ public class OrderServiceTest {
 
 	@Test
 	public void testCreateOrder() {
-		// input
-		CartInfo cart = new CartInfo();
-		ArrayList<CartLineInfo> details = new ArrayList<CartLineInfo>();
-		CartLineInfo e = new CartLineInfo();
-		ProductInfo productInfo = new ProductInfo();
-		productInfo.setProductId(101L);
-		e.setProduct(productInfo);
-		e.setQuantity(1);
-		details.add(e);
-		cart.setDetails(details);
+		CartInfo cart = TestDataUtil.setUpCartInfoData();
+
+		// Setting this here, as this is field is auto generated, and generic method in
+		// testutil impact other places
+		order.getOrderProducts().get(0).getProduct().setProductId(1L);
+		product.setProductId(1L);
+
+		OrderProduct orderProduct = new OrderProduct();
+		OrderProductPK orderProductPK = new OrderProductPK();
+		orderProductPK.setOrder(order);
+		orderProductPK.setProduct(product);
+		orderProduct.setPk(orderProductPK);
 
 		Mockito.when(orderDAO.createOrder(Mockito.any(Order.class))).thenReturn(order);
 		Mockito.when(productService.getProduct(Mockito.anyLong())).thenReturn(product);
-		Mockito.when(orderProductService.createOrder(Mockito.any(OrderProduct.class))).thenReturn(new OrderProduct());
+		Mockito.when(orderProductService.createOrder(Mockito.any(OrderProduct.class))).thenReturn(orderProduct);
 
 		OrderInfo orderInfo = orderService.createOrder(cart);
-		verify(orderDAO, times(1)).createOrder(Mockito.any(Order.class));
+		verify(orderDAO, times(2)).createOrder(Mockito.any(Order.class));
 		verify(productService, times(1)).getProduct(Mockito.anyLong());
 		verify(orderProductService, times(1)).createOrder(Mockito.any(OrderProduct.class));
 

@@ -12,37 +12,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
-import com.rest.pundraherbs.entity.Review;
-import com.rest.pundraherbs.service.ProductService;
+import com.rest.pundraherbs.model.ProductInfo;
+import com.rest.pundraherbs.model.ReviewInfo;
+import com.rest.pundraherbs.service.IProductService;
 
 @RestController
 @RequestMapping(value = "/products")
 public class ProductsController {
 
 	@Autowired
-	private ProductService productService;
+	private IProductService productService;
 
 	@RequestMapping(method = RequestMethod.GET, params="!type")
-	public List<Product> getAllProducts() {
+	public List<ProductInfo> getAllProducts() {
 		return productService.getAllProducts();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Product> getProducts(@RequestParam(value = "type") ProductType productType) {
+	public List<ProductInfo> getProducts(@RequestParam(value = "type") ProductType productType) {
 		return productService.getProductByType(productType);
 	}
 
 	@RequestMapping(value = "{productId}", method = RequestMethod.GET)
-	public Product getProduct(@PathVariable(value = "productId") Long productId) {
+	public ProductInfo getProduct(@PathVariable(value = "productId") Long productId) {
 		return productService.getProduct(productId);
 	}
 
 	@RequestMapping(value = "{productId}/review", method = RequestMethod.POST)
 	public ResponseEntity<String> reviewProduct(@PathVariable(value = "productId") Long productId,
-			@RequestBody Review review) {
-		productService.reviewProduct(productId, review);
+			@RequestBody ReviewInfo reviewInfo) {
+		productService.reviewProduct(productId, reviewInfo);
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 

@@ -19,6 +19,8 @@ import com.rest.pundraherbs.dao.ProductDAO;
 import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
 import com.rest.pundraherbs.entity.Review;
+import com.rest.pundraherbs.model.ProductInfo;
+import com.rest.pundraherbs.model.ReviewInfo;
 import com.rest.pundraherbs.util.TestDataUtil;
 
 public class ProductServiceTest {
@@ -42,7 +44,7 @@ public class ProductServiceTest {
 		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
 		Mockito.when(productDAO.getAllProducts()).thenReturn(list);
 
-		List<Product> actual = productService.getAllProducts();
+		List<ProductInfo> actual = productService.getAllProducts();
 		assertThat(actual).hasSize(1);
 		assertThat(actual.get(0).getProductName()).isEqualTo(product.getProductName());
 		verify(productDAO, times(1)).getAllProducts();
@@ -53,7 +55,7 @@ public class ProductServiceTest {
 		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
 		Mockito.when(productDAO.getProductByType(Mockito.any(ProductType.class))).thenReturn(list);
 
-		List<Product> actual = productService.getProductByType(ProductType.HUMAN);
+		List<ProductInfo> actual = productService.getProductByType(ProductType.HUMAN);
 		assertThat(actual).hasSize(1);
 		assertThat(actual.get(0).getProductName()).isEqualTo(product.getProductName());
 		verify(productDAO, times(1)).getProductByType(Mockito.any(ProductType.class));
@@ -62,7 +64,7 @@ public class ProductServiceTest {
 	@Test
 	public void testGetProduct() {
 		Mockito.when(productDAO.getProduct(Mockito.anyLong())).thenReturn(product);
-		Product actual = productService.getProduct(101L);
+		ProductInfo actual = productService.getProduct(101L);
 		assertThat(actual.getProductName()).isEqualTo(product.getProductName());
 		verify(productDAO, times(1)).getProduct(Mockito.anyLong());
 	}
@@ -71,7 +73,7 @@ public class ProductServiceTest {
 	public void testReviewProduct() {
 		Mockito.doNothing().when(productDAO).reviewProduct(Mockito.anyLong(), Mockito.any(Review.class));
 
-		productService.reviewProduct(101L, new Review());
+		productService.reviewProduct(101L, new ReviewInfo());
 		verify(productDAO, times(1)).reviewProduct(Mockito.anyLong(), Mockito.any(Review.class));
 	}
 

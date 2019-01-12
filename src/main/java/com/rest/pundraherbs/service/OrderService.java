@@ -24,10 +24,10 @@ public class OrderService implements IOrderService {
 	IOrderDAO orderDAO;
 
 	@Autowired
-	private ProductService productService;
+	private IProductService productService;
 
 	@Autowired
-	private OrderProductService orderProductService;
+	private IOrderProductService orderProductService;
 
 	public List<OrderInfo> getAllOrders() {
 
@@ -66,7 +66,24 @@ public class OrderService implements IOrderService {
 		List<OrderProduct> orderProducts = new ArrayList<>();
 
 		for (CartLineInfo cartLineInfo : listOfCartLineInfo) {
-			Product product = productService.getProduct(cartLineInfo.getProduct().getProductId());
+			ProductInfo productInfo = productService.getProduct(cartLineInfo.getProduct().getProductId());
+
+			// converting productInfo to product
+			Product product = new Product();
+			product.setProductId(productInfo.getProductId());
+			product.setProductName(productInfo.getProductName());
+			product.setProductType(productInfo.getProductType());
+			product.setProductSummary(productInfo.getProductSummary());
+			product.setProductPrice(productInfo.getProductPrice());
+			product.setProductDiscount(productInfo.getProductDiscount());
+			product.setProductImg(productInfo.getProductImg());
+			product.setUnitInStock(productInfo.getUnitInStock());
+			product.setIngredients(productInfo.getIngredients());
+			product.setPackings(productInfo.getPackings());
+			product.setIndications(productInfo.getIndications());
+			product.setReviewComments(productInfo.getReviewComments());
+			product.setDosage(productInfo.getDosage());
+
 			OrderProduct orderProduct = new OrderProduct(order, product, cartLineInfo.getQuantity());
 			orderProduct = orderProductService.createOrder(orderProduct);
 			orderProducts.add(orderProduct);

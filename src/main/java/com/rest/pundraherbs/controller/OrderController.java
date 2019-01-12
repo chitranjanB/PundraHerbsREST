@@ -15,14 +15,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rest.pundraherbs.model.CartInfo;
 import com.rest.pundraherbs.model.OrderInfo;
-import com.rest.pundraherbs.service.OrderService;
+import com.rest.pundraherbs.service.IOrderService;
 
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderController {
 
 	@Autowired
-	private OrderService orderService;
+	private IOrderService orderService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<OrderInfo> getAllOrders() {

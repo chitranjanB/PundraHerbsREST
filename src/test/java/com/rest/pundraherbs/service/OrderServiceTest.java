@@ -80,7 +80,7 @@ public class OrderServiceTest {
 		orderProduct.setPk(orderProductPK);
 
 		Mockito.when(orderDAO.createOrder(Mockito.any(Order.class))).thenReturn(order);
-		Mockito.when(productService.getProduct(Mockito.anyLong())).thenReturn(product);
+		Mockito.when(productService.getProduct(Mockito.anyLong())).thenReturn(TestDataUtil.setUpProductInfoData());
 		Mockito.when(orderProductService.createOrder(Mockito.any(OrderProduct.class))).thenReturn(orderProduct);
 
 		OrderInfo orderInfo = orderService.createOrder(cart);

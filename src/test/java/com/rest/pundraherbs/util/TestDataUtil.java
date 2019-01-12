@@ -85,5 +85,27 @@ public class TestDataUtil {
 		p1.setProductPrice(new Double("100"));
 		return p1;
 	}
+	
+	public static ProductInfo setUpProductInfoData() {
+		Review r11 = new Review();
+		r11.setReviewComment("review1");
+		r11.setReviewComment("review11");
+		Review r12 = new Review();
+		r12.setReviewComment("review2");
+		r12.setReviewComment("review21");
+
+		ProductInfo p1 = new ProductInfo();
+		//p1.setProductId(1L);
+		p1.setProductName("Liverin");
+		p1.setProductSummary("liver health");
+		p1.setIngredients(new ArrayList<>(Arrays.asList("ing1", "ing2")));
+		p1.setPackings(new ArrayList<>(Arrays.asList("pac1", "pac2")));
+		p1.setIndications(new ArrayList<>(Arrays.asList("ind1", "ind2")));
+		p1.setReviewComments(new ArrayList<>(Arrays.asList(r11, r12)));
+		p1.setProductType(ProductType.HUMAN);
+		p1.setProductPrice(new Double("100"));
+		return p1;
+	}
+
 
 }

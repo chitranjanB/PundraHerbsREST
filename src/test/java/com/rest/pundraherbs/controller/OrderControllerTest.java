@@ -64,7 +64,6 @@ public class OrderControllerTest {
 
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 
-		System.out.println("chit " + result.getResponse().getContentAsString());
 		String expected = "{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1},\"quantity\":1}]}";
 
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);

@@ -2,17 +2,17 @@ package com.rest.pundraherbs.service;
 
 import java.util.List;
 
-import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
-import com.rest.pundraherbs.entity.Review;
+import com.rest.pundraherbs.model.ProductInfo;
+import com.rest.pundraherbs.model.ReviewInfo;
 
 
 public interface IProductService {
-	public List<Product> getAllProducts();
+	public List<ProductInfo> getAllProducts();
 
-	public List<Product> getProductByType(ProductType productType);
+	public List<ProductInfo> getProductByType(ProductType productType);
 	
-	public Product getProduct(Long productId);
+	public ProductInfo getProduct(Long productId);
 
-	public void reviewProduct(Long productId, Review review);
+	public void reviewProduct(Long productId, ReviewInfo reviewInfo);
 }

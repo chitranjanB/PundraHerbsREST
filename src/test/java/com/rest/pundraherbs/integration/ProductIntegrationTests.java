@@ -65,7 +65,7 @@ public class ProductIntegrationTests {
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/products/1"), HttpMethod.GET,
 				entity, String.class);
-		String expected = "{\"productId\":1,\"productName\":\"Liverin\",\"productType\":\"HUMAN\",\"productSummary\":\"liver health\",\"productPrice\":100.0,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":[\"ing1\",\"ing2\"],\"packings\":[\"pac1\",\"pac2\"],\"indications\":[\"ind1\",\"ind2\"],\"reviewComments\":[{\"reviewId\":2,\"reviewedBy\":null,\"reviewComment\":\"review11\"},{\"reviewId\":3,\"reviewedBy\":null,\"reviewComment\":\"review21\"}],\"dosage\":[],\"hibernateLazyInitializer\":{}}";
+		String expected = "{\"productId\":1,\"productName\":\"Liverin\",\"productType\":\"HUMAN\",\"productSummary\":\"liver health\",\"productPrice\":100.0,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":[\"ing1\",\"ing2\"],\"packings\":[\"pac1\",\"pac2\"],\"indications\":[\"ind1\",\"ind2\"],\"reviewComments\":[{\"reviewId\":2,\"reviewedBy\":null,\"reviewComment\":\"review11\"},{\"reviewId\":3,\"reviewedBy\":null,\"reviewComment\":\"review21\"}],\"dosage\":[]}";
 
 		assertEquals(expected, response.getBody());
 	}

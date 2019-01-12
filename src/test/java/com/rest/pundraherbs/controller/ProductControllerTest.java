@@ -23,10 +23,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
-import com.rest.pundraherbs.entity.Review;
-import com.rest.pundraherbs.model.OrderInfo;
+import com.rest.pundraherbs.model.ProductInfo;
+import com.rest.pundraherbs.model.ReviewInfo;
 import com.rest.pundraherbs.service.ProductService;
 import com.rest.pundraherbs.util.TestDataUtil;
 
@@ -42,8 +41,8 @@ public class ProductControllerTest {
 
 	@Test
 	public void testGetAllProducts() throws Exception {
-		Product product = TestDataUtil.setUpProductData();
-		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
+		ProductInfo productInfo = TestDataUtil.setUpProductInfoData();
+		List<ProductInfo> list = new ArrayList<ProductInfo>(Arrays.asList(productInfo));
 
 		Mockito.when(productService.getAllProducts()).thenReturn(list);
 
@@ -56,8 +55,8 @@ public class ProductControllerTest {
 
 	@Test
 	public void testGetProductsWhenProductTypeIsHuman() throws Exception {
-		Product product = TestDataUtil.setUpProductData();
-		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
+		ProductInfo product = TestDataUtil.setUpProductInfoData();
+		List<ProductInfo> list = new ArrayList<ProductInfo>(Arrays.asList(product));
 
 		Mockito.when(productService.getProductByType(Mockito.any(ProductType.class))).thenReturn(list);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products?type=HUMAN")
@@ -70,9 +69,9 @@ public class ProductControllerTest {
 
 	@Test
 	public void testGetProductsWhenProductTypeIsVet() throws Exception {
-		Product product = TestDataUtil.setUpProductData();
+		ProductInfo product = TestDataUtil.setUpProductInfoData();
 		product.setProductType(ProductType.VET);
-		List<Product> list = new ArrayList<Product>(Arrays.asList(product));
+		List<ProductInfo> list = new ArrayList<ProductInfo>(Arrays.asList(product));
 
 		Mockito.when(productService.getProductByType(Mockito.any(ProductType.class))).thenReturn(list);
 
@@ -86,7 +85,7 @@ public class ProductControllerTest {
 
 	@Test
 	public void testGetProduct() throws Exception {
-		Product product = TestDataUtil.setUpProductData();
+		ProductInfo product = TestDataUtil.setUpProductInfoData();
 		product.setProductId(101L);
 		Mockito.when(productService.getProduct(Mockito.anyLong())).thenReturn(product);
 
@@ -99,7 +98,7 @@ public class ProductControllerTest {
 
 	@Test
 	public void testGetProductIsNull() throws Exception {
-		Product product = null;
+		ProductInfo product = null;
 		Mockito.when(productService.getProduct(Mockito.anyLong())).thenReturn(product);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products/101").accept(MediaType.APPLICATION_JSON);
@@ -110,7 +109,7 @@ public class ProductControllerTest {
 
 	@Test
 	public void testReviewProduct() throws Exception {
-		Mockito.doNothing().when(productService).reviewProduct(Mockito.anyLong(), Mockito.any(Review.class));
+		Mockito.doNothing().when(productService).reviewProduct(Mockito.anyLong(), Mockito.any(ReviewInfo.class));
 
 		String requestBody = "{\"reviewId\": 1,\"reviewedBy\": null,\"reviewComment\": \"This is my review\"}";
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/products/101/review")

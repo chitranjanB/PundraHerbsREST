@@ -11,4 +11,10 @@ public interface IOrderDAO {
 
 	public Order getOrder(Long orderId);
 
+	public List<Order> getOrdersByUserId(Long userId);
+
+	public List<Order> getPendingOrders();
+
+	public List<Order> getPendingOrdersByUserId(Long userId);
+
 }

@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.entity.ProductType;
 import com.rest.pundraherbs.entity.Review;
-import com.rest.pundraherbs.repository.OrderRepository;
+import com.rest.pundraherbs.entity.User;
 import com.rest.pundraherbs.repository.ProductRepository;
+import com.rest.pundraherbs.repository.UserRepository;
 
 /**
  * This class runs before the application starts and initializes the Database
@@ -22,10 +23,10 @@ import com.rest.pundraherbs.repository.ProductRepository;
 public class DatabaseInitRunner implements CommandLineRunner {
 
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 
 	@Autowired
-	OrderRepository orderRepository;
+	private UserRepository userRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -76,6 +77,18 @@ public class DatabaseInitRunner implements CommandLineRunner {
 		productRepository.save(p1);
 		productRepository.save(p2);
 		productRepository.save(p3);
+		
+		User user = new User();
+		user.setFirstName("Chitranjan");
+		user.setLastName("Babu");
+		user.setEmailId("chitranjan.pc8@gmail.com");
+		user.setUserName("selena");
+		user.setEnabled(true);
+		user.setUserPhone("1234567890");
+		user.setOrders(null);
+		user.setPassword("chit@123");
+		
+		userRepository.save(user);
 
 	}
 }

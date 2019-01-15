@@ -11,11 +11,12 @@ import com.rest.pundraherbs.dao.IOrderDAO;
 import com.rest.pundraherbs.entity.Order;
 import com.rest.pundraherbs.entity.OrderProduct;
 import com.rest.pundraherbs.entity.Product;
+import com.rest.pundraherbs.entity.User;
 import com.rest.pundraherbs.model.CartInfo;
 import com.rest.pundraherbs.model.CartLineInfo;
-import com.rest.pundraherbs.model.OrderDetailsInfo;
 import com.rest.pundraherbs.model.OrderInfo;
 import com.rest.pundraherbs.model.ProductInfo;
+import com.rest.pundraherbs.util.Util;
 
 @Service
 public class OrderService implements IOrderService {
@@ -29,114 +30,73 @@ public class OrderService implements IOrderService {
 	@Autowired
 	private IOrderProductService orderProductService;
 
+	@Autowired
+	private IUserService userService;
+
 	public List<OrderInfo> getAllOrders() {
 
-		List<OrderInfo> listOfOrders = new ArrayList<>();
-
+		// each order in db has user information(bidirectional mapping), that needs to
+		// be populated also
 		List<Order> orders = orderDAO.getAllOrders();
-		for (Order order : orders) {
-			OrderInfo orderInfo = new OrderInfo();
-			List<OrderDetailsInfo> details = new ArrayList<>();
-
-			for (OrderProduct orderProduct : order.getOrderProducts()) {
-				OrderDetailsInfo orderDetailsInfo = new OrderDetailsInfo();
-				ProductInfo productInfo = new ProductInfo();
-				productInfo.setProductId(orderProduct.getProduct().getProductId());
-				orderDetailsInfo.setProduct(productInfo);
-				orderDetailsInfo.setQuantity(orderProduct.getQuantity());
-
-				details.add(orderDetailsInfo);
-			}
-			orderInfo.setDetails(details);
-			orderInfo.setOrderId(order.getId());
-			orderInfo.setOrderStatus(order.getStatus());
-
-			listOfOrders.add(orderInfo);
-		}
+		List<OrderInfo> listOfOrders = Util.convertToListOfOrderInfo(orders);
 		return listOfOrders;
 	}
 
 	@Override
 	public OrderInfo createOrder(CartInfo cart) {
+		// CartInfo has userId populated, to let know who made this order
+		// Update the order details in db with userId populated
 		// processing the request to convert it to the entity format
 		List<CartLineInfo> listOfCartLineInfo = cart.getDetails();
 		Order order = new Order();
 		order = orderDAO.createOrder(order);
 
 		List<OrderProduct> orderProducts = new ArrayList<>();
-
 		for (CartLineInfo cartLineInfo : listOfCartLineInfo) {
 			ProductInfo productInfo = productService.getProduct(cartLineInfo.getProduct().getProductId());
-
-			// converting productInfo to product
-			Product product = new Product();
-			product.setProductId(productInfo.getProductId());
-			product.setProductName(productInfo.getProductName());
-			product.setProductType(productInfo.getProductType());
-			product.setProductSummary(productInfo.getProductSummary());
-			product.setProductPrice(productInfo.getProductPrice());
-			product.setProductDiscount(productInfo.getProductDiscount());
-			product.setProductImg(productInfo.getProductImg());
-			product.setUnitInStock(productInfo.getUnitInStock());
-			product.setIngredients(productInfo.getIngredients());
-			product.setPackings(productInfo.getPackings());
-			product.setIndications(productInfo.getIndications());
-			product.setReviewComments(productInfo.getReviewComments());
-			product.setDosage(productInfo.getDosage());
-
+			Product product = Util.convertToProduct(productInfo);
 			OrderProduct orderProduct = new OrderProduct(order, product, cartLineInfo.getQuantity());
 			orderProduct = orderProductService.createOrder(orderProduct);
 			orderProducts.add(orderProduct);
 		}
-
 		order.setOrderProducts(orderProducts);
 		order.setDateCreated(LocalDate.now());
 		order.setStatus("COMPLETED");
+		Long userId = cart.getUserInfo().getUserId();
+		User user = userService.getUserById(userId);
+		order.setUser(user);
 		order = orderDAO.createOrder(order);
 
 		// creating a response to be sent in json format
-		OrderInfo orderInfo = new OrderInfo();
-		List<OrderDetailsInfo> details = new ArrayList<>();
-
-		for (OrderProduct orderProduct : order.getOrderProducts()) {
-			OrderDetailsInfo orderDetailsInfo = new OrderDetailsInfo();
-			ProductInfo productInfo = new ProductInfo();
-			productInfo.setProductId(orderProduct.getProduct().getProductId());
-			orderDetailsInfo.setProduct(productInfo);
-			orderDetailsInfo.setQuantity(orderProduct.getQuantity());
-
-			details.add(orderDetailsInfo);
-		}
-
-		orderInfo.setDetails(details);
-		orderInfo.setOrderId(order.getId());
-		orderInfo.setOrderStatus(order.getStatus());
+		OrderInfo orderInfo = Util.convertToOrderInfo(order);
 		return orderInfo;
 	}
 
 	@Override
 	public OrderInfo getOrder(Long orderId) {
+		// get the order from db with user information populated.
 		Order order = orderDAO.getOrder(orderId);
+		return Util.convertToOrderInfo(order);
 
-		OrderInfo orderInfo = new OrderInfo();
-		List<OrderDetailsInfo> details = new ArrayList<>();
+	}
 
-		for (OrderProduct orderProduct : order.getOrderProducts()) {
-			OrderDetailsInfo orderDetailsInfo = new OrderDetailsInfo();
-			ProductInfo productInfo = new ProductInfo();
-			productInfo.setProductId(orderProduct.getProduct().getProductId());
-			orderDetailsInfo.setProduct(productInfo);
-			orderDetailsInfo.setQuantity(orderProduct.getQuantity());
+	@Override
+	public List<OrderInfo> getOrdersByUserId(Long userId) {
+		List<Order> orders = orderDAO.getOrdersByUserId(userId);
 
-			details.add(orderDetailsInfo);
-		}
+		return Util.convertToListOfOrderInfo(orders);
+	}
 
-		orderInfo.setDetails(details);
-		orderInfo.setOrderId(order.getId());
-		orderInfo.setOrderStatus(order.getStatus());
+	@Override
+	public List<OrderInfo> getPendingOrders() {
+		List<Order> pendingOrders = orderDAO.getPendingOrders();
+		return Util.convertToListOfOrderInfo(pendingOrders);
+	}
 
-		return orderInfo;
-
+	@Override
+	public List<OrderInfo> getPendingOrdersByUserId(Long userId) {
+		List<Order> pendingOrders = orderDAO.getPendingOrdersByUserId(userId);
+		return Util.convertToListOfOrderInfo(pendingOrders);
 	}
 
 }

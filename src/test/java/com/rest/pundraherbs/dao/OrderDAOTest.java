@@ -18,6 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.rest.pundraherbs.entity.Order;
 import com.rest.pundraherbs.repository.OrderRepository;
+import com.rest.pundraherbs.util.TestDataUtil;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderDAOTest {
@@ -35,7 +36,7 @@ public class OrderDAOTest {
 
 	@Test
 	public void testGetAllOrders() {
-		List<Order> orderList = new ArrayList<>(Arrays.asList(new Order()));
+		List<Order> orderList = new ArrayList<>(Arrays.asList(TestDataUtil.setUpOrderData()));
 		Mockito.when(orderRepository.findAll()).thenReturn(orderList);
 
 		orderDAO.getAllOrders();
@@ -44,20 +45,45 @@ public class OrderDAOTest {
 
 	@Test
 	public void testCreateOrder() {
-		Order order = new  Order();
-		Mockito.when(orderRepository.save(Mockito.any(Order.class))).thenReturn(order);
-		
-		orderDAO.createOrder(order);
+		Mockito.when(orderRepository.save(Mockito.any(Order.class))).thenReturn(TestDataUtil.setUpOrderData());
+
+		orderDAO.createOrder(new Order());
 		verify(orderRepository, times(1)).save(Mockito.any(Order.class));
 	}
 
 	@Test
 	public void testGetOrder() {
-		Order order = new  Order();
-		Mockito.when(orderRepository.getOne(Mockito.any(Long.class))).thenReturn(order);
-		
+		Mockito.when(orderRepository.getOne(Mockito.any(Long.class))).thenReturn(TestDataUtil.setUpOrderData());
+
 		orderDAO.getOrder(101L);
 		verify(orderRepository, times(1)).getOne(Mockito.any(Long.class));
+	}
+	
+	@Test
+	public void testGetOrdersByUserId() {
+		List<Order> orderList = new ArrayList<>(Arrays.asList(TestDataUtil.setUpOrderData()));
+		Mockito.when(orderRepository.findByUserUserId(Mockito.any(Long.class))).thenReturn(orderList);
+
+		orderDAO.getOrdersByUserId(10L);
+		verify(orderRepository, times(1)).findByUserUserId(Mockito.any(Long.class));
+	}
+	
+	@Test
+	public void testGetPendingOrders() {
+		List<Order> orderList = new ArrayList<>(Arrays.asList(TestDataUtil.setUpOrderData()));
+		Mockito.when(orderRepository.findByStatusInIgnoreCase(Mockito.any(String.class))).thenReturn(orderList);
+
+		orderDAO.getPendingOrders();
+		verify(orderRepository, times(1)).findByStatusInIgnoreCase(Mockito.any(String.class));
+	}
+	
+	@Test
+	public void testGetPendingOrdersByUserId() {
+		List<Order> orderList = new ArrayList<>(Arrays.asList(TestDataUtil.setUpOrderData()));
+		Mockito.when(orderRepository.findByUserUserIdAndStatusInIgnoreCase(Mockito.any(Long.class), Mockito.any(String.class))).thenReturn(orderList);
+
+		orderDAO.getPendingOrdersByUserId(10L);
+		verify(orderRepository, times(1)).findByUserUserIdAndStatusInIgnoreCase(Mockito.any(Long.class), Mockito.any(String.class));
 	}
 
 }

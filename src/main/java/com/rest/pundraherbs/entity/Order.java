@@ -4,10 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -28,6 +33,10 @@ public class Order {
 	private LocalDate dateCreated;
 
 	private String status;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "USER_ORDER", joinColumns = @JoinColumn(name = "ORDER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+	private User user;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "pk.order")
@@ -71,6 +80,14 @@ public class Order {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public List<OrderProduct> getOrderProducts() {

@@ -29,4 +29,19 @@ public class OrderDAO implements IOrderDAO {
 		return orderRepository.getOne(orderId);
 	}
 
+	@Override
+	public List<Order> getOrdersByUserId(Long userId) {
+		return orderRepository.findByUserUserId(userId);
+	}
+
+	@Override
+	public List<Order> getPendingOrders() {
+		return orderRepository.findByStatusInIgnoreCase("PENDING");
+	}
+
+	@Override
+	public List<Order> getPendingOrdersByUserId(Long userId) {
+		return orderRepository.findByUserUserIdAndStatusInIgnoreCase(userId, "PENDING");
+	}
+
 }

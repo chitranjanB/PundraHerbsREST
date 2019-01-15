@@ -30,7 +30,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "{orderId}", method = RequestMethod.GET)
-	public OrderInfo getOrder( @PathVariable(value = "orderId") Long orderId) {
+	public OrderInfo getOrder(@PathVariable(value = "orderId") Long orderId) {
 		return orderService.getOrder(orderId);
 	}
 
@@ -44,5 +44,20 @@ public class OrderController {
 		headers.add("Location", uri);
 
 		return new ResponseEntity<OrderInfo>(orderInfo, headers, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "users/{userId}", method = RequestMethod.GET)
+	public List<OrderInfo> getOrdersByUserId(@PathVariable(value = "userId") Long userId) {
+		return orderService.getOrdersByUserId(userId);
+	}
+
+	@RequestMapping(value = "pending/users/{userId}", method = RequestMethod.GET)
+	public List<OrderInfo> getPendingOrdersByUserId(@PathVariable(value = "userId") Long userId) {
+		return orderService.getPendingOrdersByUserId(userId);
+	}
+
+	@RequestMapping(value = "pending", method = RequestMethod.GET)
+	public List<OrderInfo> getPendingOrders() {
+		return orderService.getPendingOrders();
 	}
 }

@@ -12,4 +12,10 @@ public interface IOrderService {
 
 	public OrderInfo getOrder(Long orderId);
 
+	public List<OrderInfo> getOrdersByUserId(Long userId);
+
+	public List<OrderInfo> getPendingOrders();
+
+	public List<OrderInfo> getPendingOrdersByUserId(Long userId);
+
 }

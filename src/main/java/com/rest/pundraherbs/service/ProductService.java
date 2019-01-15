@@ -12,6 +12,7 @@ import com.rest.pundraherbs.entity.ProductType;
 import com.rest.pundraherbs.entity.Review;
 import com.rest.pundraherbs.model.ProductInfo;
 import com.rest.pundraherbs.model.ReviewInfo;
+import com.rest.pundraherbs.util.Util;
 
 @Service
 public class ProductService implements IProductService {
@@ -22,23 +23,8 @@ public class ProductService implements IProductService {
 	@Override
 	public List<ProductInfo> getAllProducts() {
 		List<ProductInfo> listOfProductInfo = new ArrayList<>();
-
 		for (Product product : productDAO.getAllProducts()) {
-			ProductInfo productInfo = new ProductInfo();
-			productInfo.setProductId(product.getProductId());
-			productInfo.setProductName(product.getProductName());
-			productInfo.setProductType(product.getProductType());
-			productInfo.setProductSummary(product.getProductSummary());
-			productInfo.setProductPrice(product.getProductPrice());
-			productInfo.setProductDiscount(product.getProductDiscount());
-			productInfo.setProductImg(product.getProductImg());
-			productInfo.setUnitInStock(product.getUnitInStock());
-			productInfo.setIngredients(product.getIngredients());
-			productInfo.setPackings(product.getPackings());
-			productInfo.setIndications(product.getIndications());
-			productInfo.setReviewComments(product.getReviewComments());
-			productInfo.setDosage(product.getDosage());
-
+			ProductInfo productInfo = Util.convertToProductInfo(product);
 			listOfProductInfo.add(productInfo);
 		}
 		return listOfProductInfo;
@@ -46,25 +32,9 @@ public class ProductService implements IProductService {
 
 	@Override
 	public List<ProductInfo> getProductByType(ProductType productType) {
-
 		List<ProductInfo> listOfProductInfoByType = new ArrayList<>();
-
 		for (Product product : productDAO.getProductByType(productType)) {
-			ProductInfo productInfo = new ProductInfo();
-			productInfo.setProductId(product.getProductId());
-			productInfo.setProductName(product.getProductName());
-			productInfo.setProductType(product.getProductType());
-			productInfo.setProductSummary(product.getProductSummary());
-			productInfo.setProductPrice(product.getProductPrice());
-			productInfo.setProductDiscount(product.getProductDiscount());
-			productInfo.setProductImg(product.getProductImg());
-			productInfo.setUnitInStock(product.getUnitInStock());
-			productInfo.setIngredients(product.getIngredients());
-			productInfo.setPackings(product.getPackings());
-			productInfo.setIndications(product.getIndications());
-			productInfo.setReviewComments(product.getReviewComments());
-			productInfo.setDosage(product.getDosage());
-
+			ProductInfo productInfo = Util.convertToProductInfo(product);
 			listOfProductInfoByType.add(productInfo);
 		}
 
@@ -74,31 +44,13 @@ public class ProductService implements IProductService {
 	@Override
 	public ProductInfo getProduct(Long productId) {
 		Product product = productDAO.getProduct(productId);
-		
-		ProductInfo productInfo = new ProductInfo();
-		productInfo.setProductId(product.getProductId());
-		productInfo.setProductName(product.getProductName());
-		productInfo.setProductType(product.getProductType());
-		productInfo.setProductSummary(product.getProductSummary());
-		productInfo.setProductPrice(product.getProductPrice());
-		productInfo.setProductDiscount(product.getProductDiscount());
-		productInfo.setProductImg(product.getProductImg());
-		productInfo.setUnitInStock(product.getUnitInStock());
-		productInfo.setIngredients(product.getIngredients());
-		productInfo.setPackings(product.getPackings());
-		productInfo.setIndications(product.getIndications());
-		productInfo.setReviewComments(product.getReviewComments());
-		productInfo.setDosage(product.getDosage());
-		
+		ProductInfo productInfo = Util.convertToProductInfo(product);
 		return productInfo;
 	}
 
 	@Override
 	public void reviewProduct(Long productId, ReviewInfo reviewInfo) {
-		Review review = new Review();
-		review.setReviewId(reviewInfo.getReviewId());
-		review.setReviewedBy(reviewInfo.getReviewedBy());
-		review.setReviewComment(reviewInfo.getReviewComment());
+		Review review = Util.convertToReview(reviewInfo);
 		productDAO.reviewProduct(productId, review);
 	}
 

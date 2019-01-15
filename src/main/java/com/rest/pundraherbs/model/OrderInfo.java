@@ -12,7 +12,8 @@ public class OrderInfo {
 	private Long orderId;
 	private String orderStatus;
 	private List<OrderDetailsInfo> details;
-
+	private UserInfo userInfo;
+	
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -36,10 +37,20 @@ public class OrderInfo {
 	public void setDetails(List<OrderDetailsInfo> details) {
 		this.details = details;
 	}
+	
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
 
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+	
 	@Override
 	public String toString() {
 		return "OrderInfo [orderId=" + orderId + ", orderStatus=" + orderStatus + ", details=" + details + "]";
 	}
+
+
 
 }

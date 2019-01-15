@@ -21,9 +21,7 @@ import com.rest.pundraherbs.entity.OrderProduct;
 import com.rest.pundraherbs.entity.OrderProductPK;
 import com.rest.pundraherbs.entity.Product;
 import com.rest.pundraherbs.model.CartInfo;
-import com.rest.pundraherbs.model.CartLineInfo;
 import com.rest.pundraherbs.model.OrderInfo;
-import com.rest.pundraherbs.model.ProductInfo;
 import com.rest.pundraherbs.util.TestDataUtil;
 
 public class OrderServiceTest {
@@ -39,6 +37,9 @@ public class OrderServiceTest {
 
 	@Mock
 	private OrderProductService orderProductService;
+
+	@Mock
+	private UserService userService;
 
 	private Order order;
 
@@ -59,6 +60,7 @@ public class OrderServiceTest {
 		List<OrderInfo> orderInfoList = orderService.getAllOrders();
 		verify(orderDAO, times(1)).getAllOrders();
 
+		//TODO extract the test for each assert and do for all test in this testclass
 		assertThat(orderInfoList).hasSameSizeAs(orderList);
 		assertThat(orderInfoList.get(0).getOrderId()).isEqualTo(order.getId());
 
@@ -67,10 +69,9 @@ public class OrderServiceTest {
 	@Test
 	public void testCreateOrder() {
 		CartInfo cart = TestDataUtil.setUpCartInfoData();
-
-		// Setting this here, as this is field is auto generated, and generic method in
-		// testutil impact other places
+		// TODO manual override for setting productId to order
 		order.getOrderProducts().get(0).getProduct().setProductId(1L);
+		order.setUser(TestDataUtil.setUpUserData());
 		product.setProductId(1L);
 
 		OrderProduct orderProduct = new OrderProduct();
@@ -81,6 +82,7 @@ public class OrderServiceTest {
 
 		Mockito.when(orderDAO.createOrder(Mockito.any(Order.class))).thenReturn(order);
 		Mockito.when(productService.getProduct(Mockito.anyLong())).thenReturn(TestDataUtil.setUpProductInfoData());
+		Mockito.when(userService.getUserById((Mockito.anyLong()))).thenReturn(TestDataUtil.setUpUserData());
 		Mockito.when(orderProductService.createOrder(Mockito.any(OrderProduct.class))).thenReturn(orderProduct);
 
 		OrderInfo orderInfo = orderService.createOrder(cart);
@@ -90,6 +92,7 @@ public class OrderServiceTest {
 
 		assertThat(orderInfo.getOrderId()).isEqualTo(order.getId());
 		assertThat(orderInfo.getDetails()).hasSameSizeAs(cart.getDetails());
+		assertThat(orderInfo.getUserInfo()).isNotNull();
 	}
 
 	@Test
@@ -99,7 +102,49 @@ public class OrderServiceTest {
 		OrderInfo orderInfo = orderService.getOrder(101L);
 		verify(orderDAO, times(1)).getOrder(Mockito.anyLong());
 
+		assertThat(orderInfo.getDetails()).isNotNull();
 		assertThat(orderInfo.getOrderId()).isEqualTo(order.getId());
+		assertThat(orderInfo.getUserInfo()).isNotNull();
+		
+	}
+	
+	@Test
+	public void testGetOrdersByUserId() {
+		List<Order> orderList = new ArrayList<>(Arrays.asList(order));
+		Mockito.when(orderDAO.getOrdersByUserId(Mockito.anyLong())).thenReturn(orderList);
+
+		List<OrderInfo> orderInfoList = orderService.getOrdersByUserId(10L);
+		verify(orderDAO, times(1)).getOrdersByUserId(Mockito.anyLong());
+
+		assertThat(orderInfoList).hasSameSizeAs(orderList);
+		assertThat(orderInfoList.get(0).getOrderId()).isEqualTo(order.getId());
+
+	}
+	
+	@Test
+	public void testGetPendingOrders() {
+		List<Order> orderList = new ArrayList<>(Arrays.asList(order));
+		Mockito.when(orderDAO.getPendingOrders()).thenReturn(orderList);
+
+		List<OrderInfo> orderInfoList = orderService.getPendingOrders();
+		verify(orderDAO, times(1)).getPendingOrders();
+
+		assertThat(orderInfoList).hasSameSizeAs(orderList);
+		assertThat(orderInfoList.get(0).getOrderId()).isEqualTo(order.getId());
+
+	}
+	
+	@Test
+	public void testGetPendingOrdersByUserId() {
+		List<Order> orderList = new ArrayList<>(Arrays.asList(order));
+		Mockito.when(orderDAO.getPendingOrdersByUserId(Mockito.anyLong())).thenReturn(orderList);
+
+		List<OrderInfo> orderInfoList = orderService.getPendingOrdersByUserId(10L);
+		verify(orderDAO, times(1)).getPendingOrdersByUserId(Mockito.anyLong());
+
+		assertThat(orderInfoList).hasSameSizeAs(orderList);
+		assertThat(orderInfoList.get(0).getOrderId()).isEqualTo(order.getId());
+
 	}
 
 }

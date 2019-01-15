@@ -10,7 +10,6 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,7 +49,7 @@ public class ProductControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 		String expected = "[{\"productId\":null,\"productName\":\"Liverin\",\"productType\":\"HUMAN\",\"productSummary\":\"liver health\",\"productPrice\":100.0,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":[\"ing1\",\"ing2\"],\"packings\":[\"pac1\",\"pac2\"],\"indications\":[\"ind1\",\"ind2\"],\"reviewComments\":[{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review11\"},{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review21\"}],\"dosage\":null}]";
 
-		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 	@Test
@@ -64,7 +63,7 @@ public class ProductControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 		String expected = "[{\"productId\":null,\"productName\":\"Liverin\",\"productType\":\"HUMAN\",\"productSummary\":\"liver health\",\"productPrice\":100.0,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":[\"ing1\",\"ing2\"],\"packings\":[\"pac1\",\"pac2\"],\"indications\":[\"ind1\",\"ind2\"],\"reviewComments\":[{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review11\"},{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review21\"}],\"dosage\":null}]";
 
-		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 	@Test
@@ -80,7 +79,7 @@ public class ProductControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 		String expected = "[{\"productId\":null,\"productName\":\"Liverin\",\"productType\":\"VET\",\"productSummary\":\"liver health\",\"productPrice\":100.0,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":[\"ing1\",\"ing2\"],\"packings\":[\"pac1\",\"pac2\"],\"indications\":[\"ind1\",\"ind2\"],\"reviewComments\":[{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review11\"},{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review21\"}],\"dosage\":null}]";
 
-		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 	@Test
@@ -93,7 +92,7 @@ public class ProductControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 		String expected = "{\"productId\":101,\"productName\":\"Liverin\",\"productType\":\"HUMAN\",\"productSummary\":\"liver health\",\"productPrice\":100.0,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":[\"ing1\",\"ing2\"],\"packings\":[\"pac1\",\"pac2\"],\"indications\":[\"ind1\",\"ind2\"],\"reviewComments\":[{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review11\"},{\"reviewId\":null,\"reviewedBy\":null,\"reviewComment\":\"review21\"}],\"dosage\":null}";
 
-		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 	@Test

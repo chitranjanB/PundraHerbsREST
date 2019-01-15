@@ -10,7 +10,6 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -49,9 +48,9 @@ public class OrderControllerTest {
 
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 
-		String expected = "[{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1},\"quantity\":1}]}]";
+		String expected = "[{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1,\"productName\":null,\"productType\":null,\"productSummary\":null,\"productPrice\":null,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":null,\"packings\":null,\"indications\":null,\"reviewComments\":null,\"dosage\":null},\"quantity\":1}],\"userInfo\":{\"userId\":10,\"emailId\":null,\"firstName\":null,\"lastName\":null,\"userName\":null,\"userPhone\":null,\"orders\":null}}]";
 
-		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 	@Test
@@ -64,9 +63,8 @@ public class OrderControllerTest {
 
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
 
-		String expected = "{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1},\"quantity\":1}]}";
-
-		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		String expected = "{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1,\"productName\":null,\"productType\":null,\"productSummary\":null,\"productPrice\":null,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":null,\"packings\":null,\"indications\":null,\"reviewComments\":null,\"dosage\":null},\"quantity\":1}],\"userInfo\":{\"userId\":10,\"emailId\":null,\"firstName\":null,\"lastName\":null,\"userName\":null,\"userPhone\":null,\"orders\":null}}";
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 	@Test
@@ -81,8 +79,58 @@ public class OrderControllerTest {
 				.content(requestBody).contentType(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
+
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 
+	}
+
+	@Test
+	public void testGetOrdersByUserId() throws Exception {
+		OrderInfo orderInfo = TestDataUtil.setUpOrderInfoData();
+		List<OrderInfo> list = new ArrayList<OrderInfo>(Arrays.asList(orderInfo));
+
+		Mockito.when(orderService.getOrdersByUserId(Mockito.anyLong())).thenReturn(list);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/orders/users/10")
+				.accept(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
+
+		String expected = "[{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1,\"productName\":null,\"productType\":null,\"productSummary\":null,\"productPrice\":null,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":null,\"packings\":null,\"indications\":null,\"reviewComments\":null,\"dosage\":null},\"quantity\":1}],\"userInfo\":{\"userId\":10,\"emailId\":null,\"firstName\":null,\"lastName\":null,\"userName\":null,\"userPhone\":null,\"orders\":null}}]";
+		System.out.println("chit testGetOrdersByUserId " + result.getResponse().getContentAsString());
+		assertEquals(expected, result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public void testGetPendingOrdersByUserId() throws Exception {
+		OrderInfo orderInfo = TestDataUtil.setUpOrderInfoData();
+		List<OrderInfo> list = new ArrayList<OrderInfo>(Arrays.asList(orderInfo));
+
+		Mockito.when(orderService.getPendingOrdersByUserId(Mockito.anyLong())).thenReturn(list);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/orders/pending/users/10")
+				.accept(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
+
+		String expected = "[{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1,\"productName\":null,\"productType\":null,\"productSummary\":null,\"productPrice\":null,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":null,\"packings\":null,\"indications\":null,\"reviewComments\":null,\"dosage\":null},\"quantity\":1}],\"userInfo\":{\"userId\":10,\"emailId\":null,\"firstName\":null,\"lastName\":null,\"userName\":null,\"userPhone\":null,\"orders\":null}}]";
+		assertEquals(expected, result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public void testGetPendingOrders() throws Exception {
+		OrderInfo orderInfo = TestDataUtil.setUpOrderInfoData();
+		List<OrderInfo> list = new ArrayList<OrderInfo>(Arrays.asList(orderInfo));
+
+		Mockito.when(orderService.getPendingOrders()).thenReturn(list);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/orders/pending")
+				.accept(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk()).andReturn();
+
+		String expected = "[{\"orderId\":101,\"orderStatus\":\"Completed\",\"details\":[{\"product\":{\"productId\":1,\"productName\":null,\"productType\":null,\"productSummary\":null,\"productPrice\":null,\"productDiscount\":null,\"productImg\":null,\"unitInStock\":0,\"ingredients\":null,\"packings\":null,\"indications\":null,\"reviewComments\":null,\"dosage\":null},\"quantity\":1}],\"userInfo\":{\"userId\":10,\"emailId\":null,\"firstName\":null,\"lastName\":null,\"userName\":null,\"userPhone\":null,\"orders\":null}}]";
+		assertEquals(expected, result.getResponse().getContentAsString());
 	}
 
 }
